@@ -19,8 +19,8 @@ model History {
   imageUrl    String
   user_id     Int
   category_id Int
-  author      User      @relation(fields: [user_id], references: [id])
-  category    Category  @relation(fields: [category_id], references: [id])
+  author      User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  category    Category  @relation(fields: [category_id], references: [id], onDelete: Cascade)
 }
 
 model User {
@@ -50,7 +50,7 @@ model Recommendation {
   deletedAt   DateTime?
   description String
   category_id Int
-  category    Category  @relation(fields: [category_id], references: [id])
+  category    Category  @relation(fields: [category_id], references: [id], onDelete: Cascade)
 }
 
 model Article {

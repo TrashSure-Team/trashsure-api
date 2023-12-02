@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { CategoryService } from 'src/services/category.service';
+import { CategoryService } from './category.service';
 
 @Controller('categories')
 export class CategoryController {
@@ -7,9 +7,10 @@ export class CategoryController {
 
   @Get()
   async getCategories() {
+    const categories = await this.categoryService.findAllCategories();
     return {
       message: 'Categories retrieved successfully.',
-      data: await this.categoryService.findAll(),
+      data: categories,
     };
   }
 }
