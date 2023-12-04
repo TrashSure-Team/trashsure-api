@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { HistoryController } from './controllers/history.controller';
-import { HistoryService } from './services/history.service';
-import { HistoryApplication } from './applications/history.application';
+import { PrismaService } from 'src/config/prisma.service';
+import { HistoryController } from './history.controller';
+import { HistoryService } from './history.service';
 
 @Module({
   controllers: [HistoryController],
-  providers: [HistoryService, HistoryApplication],
+  providers: [PrismaService, HistoryService],
 })
 export class HistoryModule {}
