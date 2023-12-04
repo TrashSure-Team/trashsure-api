@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This backend app provides an API for the Trashsure mobile app in our team. Trashsure is an application used for classifying types of waste from images, whether they are photos or real-time captures. The API serves as the bridge between the mobile app and the backend system, allowing seamless communication and data exchange. This API saves the user's data and the classification results to the database, which can be accessed by the user through the mobile app.
+> This backend app provides an API for the Trashsure mobile app in our team. Trashsure is an application used for classifying types of waste from images, whether they are photos or real-time captures. The API serves as the bridge between the mobile app and the backend system, allowing seamless communication and data exchange. This API saves the user's data and the classification results to the database, which can be accessed by the user through the mobile app.
 
 ## Tech Stack
 
@@ -14,18 +14,12 @@ This backend app provides an API for the Trashsure mobile app in our team. Trash
 
 ```bash
 npm install
-```
 
-```bash
 cp .env.example .env
-```
 
-```bash
 npx prisma migrate dev --name init && npx prisma generate
 npx prisma db seed
-```
 
-```bash
 npm run start:dev
 ```
 

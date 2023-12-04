@@ -27,7 +27,8 @@ model User {
   id         Int       @id @default(autoincrement())
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
-  username   String    @unique
+  deletedAt  DateTime?
+  fullname   String    
   email      String    @unique
   profileUrl String
   History    History[]
