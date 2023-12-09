@@ -8,13 +8,21 @@ import {
   UsePipes,
   ValidationPipe,
   NotFoundException,
+  BadRequestException,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { CreateHistoryDto } from './dto/create-history.dto';
 import { HistoryService } from './history.service';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { StorageService } from '../storage/storage.service';
 
 @Controller('histories')
 export class HistoryController {
-  constructor(private readonly historyService: HistoryService) {}
+  constructor(
+    private readonly historyService: HistoryService,
+    private readonly storageService: StorageService,
+  ) {}
 
   @Get(':id')
   async getHistoryById(@Param('id') id: string) {
@@ -41,8 +49,32 @@ export class HistoryController {
 
   @Post()
   @UsePipes(ValidationPipe)
-  async createHistory(@Body() body: CreateHistoryDto) {
-    const history = await this.historyService.createHistory(body);
+  @UseInterceptors(
+    FileInterceptor('image', {
+      limits: {
+        files: 1,
+        fileSize: 1024 * 1024,
+      },
+    }),
+  )
+  async createHistory(
+    @Body() body: CreateHistoryDto,
+    @UploadedFile() image: Express.Multer.File,
+  ) {
+    if (!image) {
+      throw new BadRequestException('Image is required.');
+    }
+
+    const historyData = {
+      ...body,
+      imageUrl: await this.storageService.upload(image),
+      confidenceThreshold: +body.confidenceThreshold,
+      userId: +body.userId,
+      typeId: +body.typeId,
+    };
+
+    const history = await this.historyService.createHistory(historyData);
+
     return {
       message: 'History created successfully.',
       data: history,

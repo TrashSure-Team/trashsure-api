@@ -1,19 +1,14 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty } from 'class-validator';
 
 export class CreateHistoryDto {
-  @IsNotEmpty()
-  @IsString()
   imageUrl: string;
 
   @IsNotEmpty()
-  @IsNumber()
   confidenceThreshold: number;
 
   @IsNotEmpty()
-  @IsNumber()
   userId: number;
 
   @IsNotEmpty()
-  @IsNumber()
   typeId: number;
 }
