@@ -10,56 +10,48 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model History {
-  id          Int       @id @default(autoincrement())
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  deletedAt   DateTime?
-  title       String
-  imageUrl    String
-  user_id     Int
-  category_id Int
-  author      User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  category    Category  @relation(fields: [category_id], references: [id], onDelete: Cascade)
+model User {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+  fullname  String
+  email     String    @unique
+  histories History[]
 }
 
-model User {
+model Type {
+  id              Int              @id @default(autoincrement())
+  name            String
+  histories       History[]
+  recommendations Recommendation[]
+}
+
+model History {
+  id                  Int       @id @default(autoincrement())
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  deletedAt           DateTime?
+  imageUrl            String
+  confidenceThreshold Float
+  typeId              Int
+  userId              Int
+  type                Type      @relation(fields: [typeId], references: [id], onDelete: Cascade)
+  user                User      @relation(fields: [userId], references: [id])
+}
+
+model Recommendation {
+  id          Int    @id @default(autoincrement())
+  description String
+  typeId      Int
+  type        Type   @relation(fields: [typeId], references: [id], onDelete: Cascade)
+}
+
+model Article {
   id         Int       @id @default(autoincrement())
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
   deletedAt  DateTime?
-  fullname   String    
-  email      String    @unique
-  profileUrl String
-  History    History[]
-}
-
-model Category {
-  id             Int              @id @default(autoincrement())
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
-  deletedAt      DateTime?
-  name           String           @unique
-  History        History[]
-  Recommendation Recommendation[]
-}
-
-model Recommendation {
-  id          Int       @id @default(autoincrement())
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  deletedAt   DateTime?
-  description String
-  category_id Int
-  category    Category  @relation(fields: [category_id], references: [id], onDelete: Cascade)
-}
-
-model Article {
-  id          Int       @id @default(autoincrement())
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  deletedAt   DateTime?
-  description String
-  url         String
-  title       String
+  title      String
+  articleUrl String
 }

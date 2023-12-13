@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
 import { UserModule } from './modules/user/user.module';
 import { HistoryModule } from './modules/history/history.module';
-import { CategoryModule } from './modules/category/category.module';
+import { TypeModule } from './modules/type/type.module';
+import { StorageModule } from './modules/storage/storage.module';
 
 @Module({
-  imports: [HistoryModule, CategoryModule, UserModule],
+  imports: [HistoryModule, TypeModule, UserModule, StorageModule],
   providers: [],
 })
 export class AppModule {}
