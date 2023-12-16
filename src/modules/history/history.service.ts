@@ -7,12 +7,21 @@ import { CreateHistoryDto } from './dto/create-history.dto';
 export class HistoryService {
   constructor(private prisma: PrismaService) {}
 
-  async findHistoryById(id: number): Promise<History> {
-    return await this.prisma.history.findUnique({ where: { id } });
+  async findHistoryByIdAndUserId(id: number, userId: string): Promise<History> {
+    return await this.prisma.history.findUnique({
+      where: {
+        id,
+        userId: userId,
+      },
+    });
   }
 
-  async findAllHistories(): Promise<History[]> {
-    return await this.prisma.history.findMany();
+  async findAllHistories(userId: string): Promise<History[]> {
+    return await this.prisma.history.findMany({
+      where: {
+        userId,
+      },
+    });
   }
 
   async createHistory(data: CreateHistoryDto): Promise<History> {
