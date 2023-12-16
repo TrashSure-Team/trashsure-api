@@ -11,11 +11,13 @@ import {
   BadRequestException,
   UseInterceptors,
   UploadedFile,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateHistoryDto } from './dto/create-history.dto';
 import { HistoryService } from './history.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { StorageService } from '../storage/storage.service';
+import { AuthGuard } from '../auth/auth.guard';
 
 @Controller('histories')
 export class HistoryController {
@@ -38,6 +40,7 @@ export class HistoryController {
     };
   }
 
+  @UseGuards(AuthGuard)
   @Get()
   async getHistories() {
     const histories = await this.historyService.findAllHistories();

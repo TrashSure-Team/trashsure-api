@@ -7,14 +7,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { FirebaseModule } from './modules/firebase/firebase.module';
 
 @Module({
-  imports: [
-    HistoryModule,
-    TypeModule,
-    UserModule,
-    StorageModule,
-    AuthModule,
-    FirebaseModule,
-  ],
-  providers: [],
+  imports: [HistoryModule, TypeModule, UserModule, StorageModule],
+  providers: [FirebaseModule, AuthModule],
 })
 export class AppModule {}
