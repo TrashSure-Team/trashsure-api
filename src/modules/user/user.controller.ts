@@ -4,29 +4,40 @@ import {
   Controller,
   Get,
   Post,
+  Req,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
 import { UserService } from './user.service';
+import { AuthGuard } from '../auth/auth.guard';
+import { CreateUserDto } from './dto/create-user.dto';
 
+@UseGuards(AuthGuard)
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  @UsePipes(ValidationPipe)
-  async createUser(@Body() body: CreateUserDto) {
-    const existingUser = await this.userService.findUserByEmail(body.email);
+  async createUser(@Req() request) {
+    const { user } = request;
+
+    const existingUser = await this.userService.findUserById(user.uid);
 
     if (existingUser) {
       throw new BadRequestException('User already exists.');
     }
 
-    const user = await this.userService.createUser(body);
+    const userData: CreateUserDto = {
+      id: user.uid,
+      fullname: user.name,
+      email: user.email,
+    };
+
+    const createdUser = await this.userService.createUser(userData);
     return {
       message: 'User created successfully.',
-      data: user,
+      data: createdUser,
     };
   }
 

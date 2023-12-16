@@ -7,8 +7,8 @@ import { FirebaseService } from '../firebase/firebase.service';
 import { FirebaseModule } from '../firebase/firebase.module';
 
 @Module({
-  controllers: [HistoryController],
   imports: [FirebaseModule],
+  controllers: [HistoryController],
   providers: [PrismaService, HistoryService, StorageService, FirebaseService],
 })
 export class HistoryModule {}

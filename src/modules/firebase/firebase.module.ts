@@ -15,6 +15,6 @@ const firebaseProvider = {
 
 @Module({
   providers: [firebaseProvider, FirebaseService],
-  exports: [firebaseProvider, FirebaseService],
+  exports: [firebaseProvider],
 })
 export class FirebaseModule {}

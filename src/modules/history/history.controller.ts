@@ -20,6 +20,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { StorageService } from '../storage/storage.service';
 import { AuthGuard } from '../auth/auth.guard';
 
+@UseGuards(AuthGuard)
 @Controller('histories')
 export class HistoryController {
   constructor(
@@ -28,8 +29,12 @@ export class HistoryController {
   ) {}
 
   @Get(':id')
-  async getHistoryById(@Param('id') id: string) {
-    const history = await this.historyService.findHistoryById(+id);
+  async getHistoryById(@Param('id') id: string, @Req() request) {
+    const { uid } = request.user;
+    const history = await this.historyService.findHistoryByIdAndUserId(
+      +id,
+      uid,
+    );
 
     if (!history) {
       throw new NotFoundException('History not found.');
@@ -41,11 +46,10 @@ export class HistoryController {
     };
   }
 
-  @UseGuards(AuthGuard)
   @Get()
   async getHistories(@Req() request) {
-    const userPayload = request.user;
-    const histories = await this.historyService.findAllHistories();
+    const { uid } = request.user;
+    const histories = await this.historyService.findAllHistories(uid);
     return {
       message: 'Histories retrieved successfully.',
       data: histories,
@@ -65,7 +69,9 @@ export class HistoryController {
   async createHistory(
     @Body() body: CreateHistoryDto,
     @UploadedFile() image: Express.Multer.File,
+    @Req() request,
   ) {
+    const { uid } = request.user;
     if (!image) {
       throw new BadRequestException('Image is required.');
     }
@@ -74,7 +80,7 @@ export class HistoryController {
       ...body,
       imageUrl: await this.storageService.upload(image),
       confidenceThreshold: +body.confidenceThreshold,
-      userId: +body.userId,
+      userId: uid,
       typeId: +body.typeId,
     };
 
@@ -87,8 +93,12 @@ export class HistoryController {
   }
 
   @Delete(':id')
-  async deleteHistory(@Param('id') id: string) {
-    const history = await this.historyService.findHistoryById(+id);
+  async deleteHistory(@Param('id') id: string, @Req() request) {
+    const { uid } = request.user;
+    const history = await this.historyService.findHistoryByIdAndUserId(
+      +id,
+      uid,
+    );
 
     if (!history) {
       throw new NotFoundException('History not found.');
