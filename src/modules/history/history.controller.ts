@@ -12,6 +12,7 @@ import {
   UseInterceptors,
   UploadedFile,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { CreateHistoryDto } from './dto/create-history.dto';
 import { HistoryService } from './history.service';
@@ -42,7 +43,8 @@ export class HistoryController {
 
   @UseGuards(AuthGuard)
   @Get()
-  async getHistories() {
+  async getHistories(@Req() request) {
+    const userPayload = request.user;
     const histories = await this.historyService.findAllHistories();
     return {
       message: 'Histories retrieved successfully.',

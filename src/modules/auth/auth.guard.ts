@@ -22,8 +22,6 @@ export class AuthGuard implements CanActivate {
       const payload = await this.firebaseService.verifyIdToken(token);
       request['user'] = payload;
     } catch (e) {
-      console.log(e);
-
       throw new UnauthorizedException();
     }
     return true;
