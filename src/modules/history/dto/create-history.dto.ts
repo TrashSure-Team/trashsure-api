@@ -6,8 +6,7 @@ export class CreateHistoryDto {
   @IsNotEmpty()
   confidenceThreshold: number;
 
-  @IsNotEmpty()
-  userId: number;
+  userId: string;
 
   @IsNotEmpty()
   typeId: number;
