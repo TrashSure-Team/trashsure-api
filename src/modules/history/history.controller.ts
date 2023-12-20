@@ -104,6 +104,7 @@ export class HistoryController {
       throw new NotFoundException('History not found.');
     }
 
+    await this.storageService.delete(history.imageUrl);
     await this.historyService.deleteHistory(+id);
     return {
       message: 'History deleted successfully.',
