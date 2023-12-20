@@ -19,7 +19,7 @@ export class StorageService {
   }
 
   async upload(file: Express.Multer.File): Promise<string> {
-    const fileName = `${Date.now()}-${file.originalname}`;
+    const fileName = `histories/${Date.now()}-${file.originalname}`;
     const fileStream = file.buffer;
 
     const bucket = this.storage.bucket(this.bucket);
@@ -32,5 +32,22 @@ export class StorageService {
     });
 
     return fileUpload.publicUrl();
+  }
+
+  async delete(fileName: string): Promise<void | null> {
+    const bucket = this.storage.bucket(this.bucket);
+    fileName = fileName
+      .split('/')
+      .pop()
+      .replace('%2F', '/')
+      .replace('%20', ' ');
+    const file = bucket.file(fileName);
+
+    const exists = await file.exists();
+    if (!exists[0]) {
+      return null;
+    }
+
+    await file.delete();
   }
 }

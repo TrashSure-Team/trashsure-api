@@ -1,13 +1,10 @@
 import {
   BadRequestException,
-  Body,
   Controller,
   Get,
   Post,
   Req,
   UseGuards,
-  UsePipes,
-  ValidationPipe,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { AuthGuard } from '../auth/auth.guard';
@@ -38,6 +35,16 @@ export class UserController {
     return {
       message: 'User created successfully.',
       data: createdUser,
+    };
+  }
+
+  @Get('me')
+  async findMe(@Req() request) {
+    const { user } = request;
+    const foundUser = await this.userService.findUserById(user.uid);
+    return {
+      message: 'User retrieved successfully.',
+      data: foundUser,
     };
   }
 
