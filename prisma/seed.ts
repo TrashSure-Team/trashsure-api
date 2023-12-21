@@ -183,7 +183,7 @@ async function main() {
       {
         typeId: 7,
         description:
-          'Recycling Tip: Utilize certified e-waste recycling facilities that adhere to environmentally friendly practices and proper disposal techniques, ensuring the safe handling of electronic components.',
+          'Recycling Tip: Opt for certified e-waste recycling facilities with eco-friendly practices for safe electronic component disposal.',
       },
       {
         typeId: 7,
