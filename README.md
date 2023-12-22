@@ -32,3 +32,187 @@ npm run start:dev
 - [Cloud Storage](https://cloud.google.com/storage), A unified object storage for developers and enterprises, from live data serving to data analytics/ML to data archiving.
 
 ## API Documentation
+
+### User
+ 
+
+* **[POST]** Create user
+
+  `https://trashsure.live/api/users`
+  
+  Header :
+    * **Content-Type:** application/json
+    * **Authorization:** Bearer `idToken`
+    
+    Response:
+    ```json
+    {
+        "message": "User created successfully.",
+        "data": {
+            "id": "M35aVFlBZBaljxYjNpgZQdfs6VI2",
+            "createdAt": "2023-12-21T11:38:38.560Z",
+            "updatedAt": "2023-12-21T11:38:38.560Z",
+            "deletedAt": null,
+            "fullname": "Unnamed User",
+            "email": "example@gmail.com"
+        }
+    }
+    ```
+    
+* **[GET]** Me
+  
+    `https://trashsure.live/api/users`
+
+    Header :
+    * **Content-Type:** application/json
+    * **Authorization:** Bearer `idToken`
+    
+    Response:
+    ```json
+    {
+        "message": "User retrieved successfully.",
+        "data": {
+            "id": "M35aVFlBZBaljxYjNpgZQdfs6VI2",
+            "createdAt": "2023-12-21T11:38:38.560Z",
+            "updatedAt": "2023-12-21T11:38:38.560Z",
+            "deletedAt": null,
+            "fullname": "Unnamed User",
+            "email": "example@gmail.com"
+        }
+    }    
+    ```
+    
+### History
+ 
+
+* **[POST]** Create history
+
+  `https://trashsure.live/api/histories`
+  
+  Header :
+    * **Content-Type:** application/json
+    * **Authorization:** Bearer `idToken`
+    
+    Body:
+    ```json
+    {
+        "image": file,
+        "confidenceThreshold": 99,
+        "typeId": 1
+    }
+    ```
+    
+    
+    Response:
+    ```json
+    {
+        "message": "History created successfully.",
+        "data": {
+            "id": 1,
+            "createdAt": "2023-12-21T11:39:10.356Z",
+            "updatedAt": "2023-12-21T11:39:10.356Z",
+            "deletedAt": null,
+            "imageUrl": "https://storage.googleapis.com/trashsurebucket1111/histories%2F1703158749806-Bangkit.png",
+            "confidenceThreshold": 99.97,
+            "typeId": 1,
+            "userId": "M35aVFlBZBaljxYjNpgZQdfs6VI2"
+        }
+    }
+    ```
+    
+* **[GET]** Get History
+  
+    `https://trashsure.live/api/histories/:id`
+
+    Header :
+    * **Content-Type:** application/json
+    * **Authorization:** Bearer `idToken`
+    
+    Response:
+    ```json
+    {
+        "message": "History retrieved successfully.",
+        "data": {
+            "id": 1,
+            "createdAt": "2023-12-21T11:39:10.356Z",
+            "updatedAt": "2023-12-21T11:39:10.356Z",
+            "deletedAt": null,
+            "imageUrl": "https://storage.googleapis.com/trashsurebucket1111/histories%2F1703158749806-Bangkit.png",
+            "confidenceThreshold": 99.97,
+            "typeId": 1,
+            "userId": "M35aVFlBZBaljxYjNpgZQdfs6VI2"
+        }
+    }   
+    ```
+    
+* **[GET]** Get All Histories
+  
+    `https://trashsure.live/api/histories`
+
+    Header :
+    * **Content-Type:** application/json
+    * **Authorization:** Bearer `idToken`
+    
+    Response:
+    ```json
+    {
+        "message": "Histories retrieved successfully.",
+        "data": [
+            {
+                "id": 1,
+                "createdAt": "2023-12-21T11:39:10.356Z",
+                "updatedAt": "2023-12-21T11:39:10.356Z",
+                "deletedAt": null,
+                "imageUrl": "https://storage.googleapis.com/trashsurebucket1111/histories%2F1703158749806-Bangkit.png",
+                "confidenceThreshold": 99.97,
+                "typeId": 1,
+                "userId": "M35aVFlBZBaljxYjNpgZQdfs6VI2"
+            }
+        ]
+    }
+    ```
+
+### Recommendation
+
+
+* **[GET]** Get Recommendation By Type Id
+  
+    `https://trashsure.live/api/recommendations`
+
+    Header :
+    * **Content-Type:** application/json
+    * **Authorization:** Bearer `idToken`
+    
+    Response:
+    ```json
+    {
+        "message": "Recommendation retrieved successfully.",
+        "data": [
+            {
+                "id": 1,
+                "description": "Recycling Tip: Separate glass by color to enhance recycling efficiency, as different colors may have distinct chemical compositions.",
+                "typeId": 1
+            },
+            {
+                "id": 2,
+                "description": "DIY Decor: Embrace do-it-yourself (DIY) projects by upcycling glass containers into aesthetically pleasing decorative items for home or garden use.",
+                "typeId": 1
+            },
+            {
+                "id": 3,
+                "description": "Bottle Return Programs: Participate in bottle return programs where available, contributing to the circular economy by supporting glass recycling initiatives.",
+                "typeId": 1
+            },
+            {
+                "id": 4,
+                "description": "Glass Mulch: Investigate the use of crushed glass as mulch in gardening, providing an eco-friendly alternative to traditional mulching materials.",
+                "typeId": 1
+            },
+            {
+                "id": 5,
+                "description": "Reuse: Advocate for the reuse of glass jars for food storage, organizing small items, or crafting, minimizing single-use packaging.",
+                "typeId": 1
+            }
+        ]
+    }
+```
