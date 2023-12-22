@@ -23,8 +23,6 @@ npx prisma db seed
 npm run start:dev
 ```
 
-## Configuration
-
 ## Cloud Services
 
 - [Compute Engine](https://cloud.google.com/compute), A secure and scalable cloud computing service that lets you create and deploy virtual machines on Google's infrastructure.
